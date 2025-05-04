@@ -1,0 +1,35 @@
+<!-- service_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Детали услуги: {{ service.name }}</h2>
+
+<p><strong>Тип услуги:</strong> {{ service.get_type_display }}</p>
+
+<h3>Тарифы</h3>
+{% if service.tariffs.all %}
+    <ul>
+        {% for tariff in service.tariffs.all %}
+            <li>
+                <strong>{{ tariff.unit }}</strong>: {{ tariff.rate }} (с {{ tariff.start_date }})
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Тарифы для этой услуги не добавлены.</p>
+{% endif %}
+
+<h3>Единицы измерения</h3>
+{% if service.units.all %}
+    <ul>
+        {% for unit in service.units.all %}
+            <li>{{ unit.name }} ({{ unit.code }})</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Единицы измерения для этой услуги не добавлены.</p>
+{% endif %}
+
+<a href="{% url 'add_tariff' service.id %}" class="btn btn-secondary">Добавить тариф</a>
+<a href="{% url 'add_unit' %}" class="btn btn-primary">Добавить единицу измерения</a>
+{% endblock %}

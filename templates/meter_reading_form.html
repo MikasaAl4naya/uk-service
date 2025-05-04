@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>Добавить показания счетчика</h3>
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+
+        <a href="{% url 'account_detail' account.id %}" class="btn btn-secondary mt-3">Назад</a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const serviceField = document.querySelector('select[name="service"]');
+        const unitField = document.querySelector('select[name="unit"]');
+
+        // Слушаем изменения в поле service
+        serviceField.addEventListener('change', function() {
+            const serviceId = serviceField.value;
+            // Отправляем запрос для получения доступных единиц измерения
+            fetch(`/get_units_for_service/${serviceId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    unitField.innerHTML = '';  // Очищаем текущие единицы
+                    data.units.forEach(function(unit) {
+                        const option = document.createElement('option');
+                        option.value = unit.id;
+                        option.textContent = unit.name;
+                        unitField.appendChild(option);
+                    });
+                });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if report_data %}
+    {% for service, periods in report_data.items %}
+      <h2>{{ service }}</h2>
+      {% for period, readings in periods.items %}
+        <h3>{{ period }}</h3>
+        <table class="table table-bordered">
+          <tr>
+            <th>Дата</th>
+            <th>Единица измерения</th>
+            <th>Значение</th>
+          </tr>
+          {% for reading in readings %}
+            <tr>
+              <td>{{ reading.date }}</td>
+              <td>{{ reading.unit.name }}</td>
+              <td>{{ reading.value }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      {% endfor %}
+    {% endfor %}
+  {% else %}
+    <p>Нет данных для выбранного периода.</p>
+  {% endif %}
+{% endblock %}

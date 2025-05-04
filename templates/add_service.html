@@ -1,0 +1,14 @@
+<!-- add_service.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Добавить новую услугу</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+<!-- Ссылка для добавления новой единицы измерения -->
+<p>Если нужной единицы измерения нет, <a href="{% url 'add_unit' %}">добавьте новую единицу измерения</a></p>
+{% endblock %}

@@ -1,0 +1,11 @@
+<!-- edit_payment.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Редактировать платеж</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+</form>
+{% endblock %}

@@ -1,0 +1,11 @@
+<!-- edit_service.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Редактировать тариф: {{ form.instance.rate }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

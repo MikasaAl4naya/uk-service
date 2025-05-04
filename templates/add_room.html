@@ -1,0 +1,11 @@
+<!-- add_room.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Добавить новое помещение в {{ building.address }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

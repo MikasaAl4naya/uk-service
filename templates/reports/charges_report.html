@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">Отчет по начислениям</h3>
+    </div>
+
+    <div class="card-body">
+      <form method="get" class="mb-4 row g-3 align-items-center">
+        <div class="col-md-4">
+          <input type="month" name="period" class="form-control"
+                 value="{{ period }}"
+                 max="{{ now|date:'Y-m' }}">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-funnel"></i> Фильтровать
+          </button>
+        </div>
+      </form>
+
+      {% if report_data %}
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Период</th>
+              <th>Адрес</th>
+              <th>Квартира</th>
+              <th class="text-end">Сумма начисления</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for period, items in report_data.items %}
+              {% for item in items %}
+              <tr>
+                {% if forloop.first %}
+                <td rowspan="{{ items|length }}" class="align-middle">
+                  {{ period }}
+                </td>
+                {% endif %}
+                <td>{{ item.account.room.building.address }}</td>
+                <td>{{ item.account.room.number }}</td>
+                <td class="text-end">{{ item.amount|floatformat:2 }} руб.</td>
+              </tr>
+              {% endfor %}
+            {% endfor %}
+            <tr class="table-success">
+              <td colspan="3" class="fw-bold">Итого:</td>
+              <td class="text-end fw-bold">{{ total_amount|floatformat:2 }} руб.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="alert alert-info">
+        Нет данных для отображения
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

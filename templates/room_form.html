@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Редактирование квартиры №{{ form.instance.number }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+</form>
+
+<a href="{% url 'building_list' %}" class="btn btn-secondary mt-3">Назад к списку строений</a>
+{% endblock %}

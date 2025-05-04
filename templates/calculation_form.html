@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>Создание расчета для лицевого счета {{ account }}</h3>
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">Создать расчет</button>
+        </form>
+
+        <a href="{% url 'account_detail' account.id %}" class="btn btn-secondary mt-3">Назад</a>
+    </div>
+</div>
+{% endblock %}

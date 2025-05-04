@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Список строений</h2>
+
+<table class="table table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>Адрес строения</th>
+      <th>Номер квартиры</th>
+      <th>Лицевой счет</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for building in buildings %}
+      {% with rooms=building.rooms.all %}
+        {% if rooms %}
+          {% for room in rooms %}
+            <tr>
+              {% if forloop.first %}
+                <td rowspan="{{ rooms|length }}" class="align-middle">
+                  {{ building.address }}
+                  <div class="mt-2">
+                    <a href="{% url 'add_room' building.id %}"
+                       class="btn btn-sm btn-outline-secondary">
+                      + Добавить квартиру
+                    </a>
+                  </div>
+                </td>
+              {% endif %}
+              <td>{{ room.number }}</td>
+              <td>
+                {% if room.account %}
+                  <a href="{% url 'account_detail' room.account.id %}"
+                     class="btn btn-primary btn-sm">
+                    Просмотр
+                  </a>
+                {% else %}
+                  <a href="{% url 'add_account' %}?room_id={{ room.id }}"
+                     class="btn btn-success btn-sm">
+                    Создать счет
+                  </a>
+                {% endif %}
+              </td>
+          <td>
+            <a href="{% url 'room_edit' room.id %}" class="btn btn-warning btn-sm">Редактировать</a>
+            <a href="{% url 'delete_room' room.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены, что хотите удалить эту квартиру?');">Удалить</a>
+          </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td>{{ building.address }}</td>
+            <td colspan="3">
+              <a href="{% url 'add_room' building.id %}"
+                 class="btn btn-sm btn-outline-secondary">
+                + Добавить первую квартиру
+              </a>
+            </td>
+          </tr>
+        {% endif %}
+      {% endwith %}
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="mt-4">
+  <a href="{% url 'add_building' %}" class="btn btn-primary">
+    <i class="bi bi-building-add"></i> Добавить новое строение
+  </a>
+</div>
+{% endblock %}
